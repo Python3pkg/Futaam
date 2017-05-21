@@ -15,7 +15,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import json
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import urllib.parse
 #import urllib2
 from urllib.request import urlopen
@@ -51,11 +51,11 @@ def etree_to_dict(t):
     if children:
         dd = defaultdict(list)
         for dc in map(etree_to_dict, children):
-            for k, v in dc.items():
+            for k, v in list(dc.items()):
                 dd[k].append(v)
-        d = {t.tag: {k:v[0] if len(v) == 1 else v for k, v in dd.items()}}
+        d = {t.tag: {k:v[0] if len(v) == 1 else v for k, v in list(dd.items())}}
     if t.attrib:
-        d[t.tag].update(('@' + k, v) for k, v in t.attrib.items())
+        d[t.tag].update(('@' + k, v) for k, v in list(t.attrib.items()))
     if t.text:
         text = t.text.strip()
         if children or t.attrib:
@@ -66,8 +66,8 @@ def etree_to_dict(t):
     return d
 
 def google(search):
-    query = urllib.urlencode({'q': search})
-    response = urllib.urlopen('http://ajax.googleapis.com/ajax/services/search/web?v=1.0&' + query).read()
+    query = urllib.parse.urlencode({'q': search})
+    response = urllib.request.urlopen('http://ajax.googleapis.com/ajax/services/search/web?v=1.0&' + query).read()
     j = json.loads(response)
     results = j['responseData']['results']
     for result in results:
@@ -200,7 +200,7 @@ class ANNWrapper(object):
 			queryurl = self.reportURL[stype] + count
 			try:
 				res = urlopen(queryurl).read()
-			except urllib2.URLError:
+			except urllib.error.URLError:
 				return
 			root = ET.fromstring(res)
 			del res; res = etree_to_dict(root) #recycling is important
@@ -283,7 +283,7 @@ class ANNWrapper(object):
 				if '#text' in episode['title']:
 					to_be_merged['episode_names'][episode['@num']] = episode['title']['#text']
 				else:
-					if isinstance(episode['title'], basestring):
+					if isinstance(episode['title'], str):
 						to_be_merged['episode_names'][episode['@num']] = episode['title']
 					else:
 						titles = []
@@ -319,7 +319,7 @@ class ANNWrapper(object):
 
 	def details(self, eid, stype):
 		"""Returns the details for the given ANN entry ID."""
-		if str(eid) in self.caches['ANN_' + stype + '_cache'].keys():
+		if str(eid) in list(self.caches['ANN_' + stype + '_cache'].keys()):
 			return self.caches['ANN_' + stype + '_cache'][str(eid)]
 
 		queryurl = self.detailsURL[stype] + str(eid)
@@ -330,7 +330,7 @@ class ANNWrapper(object):
 		self.merge_entry(stype, res['ann'][stype])
 		self.save_cache()
 			
-		if str(eid) in self.caches['ANN_' + stype + '_cache'].keys():
+		if str(eid) in list(self.caches['ANN_' + stype + '_cache'].keys()):
 			return self.caches['ANN_' + stype + '_cache'][str(eid)]
 		raise Exception('Entry with specified ID not found')
 
@@ -408,7 +408,7 @@ class VNDB(object):
 
 		whole = ''
 		whole += command.lower()
-		if isinstance(args, basestring):
+		if isinstance(args, str):
 			whole += ' ' + args
 		elif isinstance(args, dict):
 			whole += ' ' + json.dumps(args)

@@ -116,7 +116,7 @@ class if_ncurses(object):
 			self.hooks = ARGS.hooks
 
 		if len(self.dbfile) == 0 and self.host == '':
-			print(colors.fail + 'No database file specified' + colors.default)
+			print((colors.fail + 'No database file specified' + colors.default))
 			sys.exit(1)
 
 		if self.host == '':
@@ -127,12 +127,12 @@ class if_ncurses(object):
 		else:
 			if self.username == '':
 				if 'default.user' in self.confs:
-					print('[' + colors.blue + 'info' + colors.default +'] using default user')
+					print(('[' + colors.blue + 'info' + colors.default +'] using default user'))
 					self.username = self.confs['default.user']
 				else:
-					self.username = input('Username for \'' + self.host + '\': ')
+					self.username = eval(input('Username for \'' + self.host + '\': '))
 			if 'default.password' in self.confs:
-				print('[' + colors.blue + 'info' + colors.default +'] using default password')
+				print(('[' + colors.blue + 'info' + colors.default +'] using default password'))
 				self.password = self.confs['default.password']
 			else:
 				self.password = getpass.getpass('Password for ' + self.username + '@' + self.host + ': ')
@@ -163,10 +163,10 @@ class if_ncurses(object):
 		if ANNInitRet == 0:
 			pass
 		elif ANNInitRet == 1:
-			print(self.alert('Updating metadata...'))
+			print((self.alert('Updating metadata...')))
 			ANN.fetch_report(50)
 		elif ANNInitRet == 2:
-			print(self.alert('Updating ANN metadata cache for the first time...'))
+			print((self.alert('Updating ANN metadata cache for the first time...')))
 			ANN.fetch_report('all')
 
 		self.redraw()
@@ -195,7 +195,7 @@ class if_ncurses(object):
 				curses.echo()
 				curses.curs_set(1)
 				curses.endwin()
-				print(colors.green + 'Bye bye~' + colors.default)
+				print((colors.green + 'Bye bye~' + colors.default))
 				sys.stdout.flush()
 				os._exit(0)
 			if x == ord('h') or x == ord('H'):
@@ -534,7 +534,7 @@ class if_ncurses(object):
 		if terminalsize[0] < 12 or terminalsize[1] < 46:
 			self.screen.keypad(0)
 			curses.endwin()
-			print(colors.fail + '\nScreen too small :C' + colors.default)
+			print((colors.fail + '\nScreen too small :C' + colors.default))
 			sys.exit(1)
 		i = 0
 		y = 1
@@ -612,7 +612,7 @@ class if_ncurses(object):
 		if terminalsize[0] < 12 or terminalsize[1] < 46:
 			self.screen.keypad(0)
 			curses.endwin()
-			print(colors.fail + '\nScreen too small :C' + colors.default)
+			print((colors.fail + '\nScreen too small :C' + colors.default))
 			sys.exit(1)
 		i = 0
 		y = 1
@@ -673,7 +673,7 @@ class if_ncurses(object):
 							self.screen.addstr(t, 27 + len(field[0]), field[1][:sizeleft-3].encode('utf-8') + '...')
 							t += 1
 							continue
-						fix = u' ' * sizeleft
+						fix = ' ' * sizeleft
 						self.screen.addstr(t, 27 + len(field[0]), showstr.encode('utf-8') + fix.encode('utf-8'))
 						t += 1
 					if entry['type'] in ['anime', 'manga']: #what ANN handles
@@ -818,7 +818,7 @@ def main(argv, version):
 	try:
 		obj = if_ncurses(argv)
 	except:
-		print(sys.exc_info()[0])
+		print((sys.exc_info()[0]))
 		curses.endwin()
 		raise
 

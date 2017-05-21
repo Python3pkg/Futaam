@@ -34,8 +34,8 @@ def main():
     import subprocess
     import json
     import hashlib
-    import futaam.interfaces.common.utils as utils
-    from futaam.interfaces import get_interface
+    from . import futaam.interfaces.common.utils as utils
+    from .futaam.interfaces import get_interface
     colors = utils.colors()
     confpath = os.path.join(os.environ['HOME'], '.futaam')
     if os.path.exists(confpath):
@@ -59,7 +59,7 @@ def main():
             print((colors.fail + 'Could not load submodule: ' +
                   filepath + colors.default))
             print(('--- ' + str(info) + ' ---'))
-            print(traceback.format_exc())
+            print((traceback.format_exc()))
             exit(1)
 
     def print_help(intf):
@@ -114,10 +114,10 @@ def main():
             sys.exit(0)
         elif arg.lower() in ['--conf', '--config']:
             if len(sys.argv) <= i + 1:
-                print('Missing argument for ' + arg)
+                print(('Missing argument for ' + arg))
                 sys.exit(1)
             elif sys.argv[i + 1].startswith('--'):
-                print('Missing argument for ' + arg)
+                print(('Missing argument for ' + arg))
                 sys.exit(1)
 
             key = sys.argv[i + 1]
@@ -128,7 +128,7 @@ def main():
             else:
                 if len(sys.argv) <= i + 2:
                     if key in conf:
-                        print('Unsetting ' + key)
+                        print(('Unsetting ' + key))
                     else:
                         print('Key not found')
                         sys.exit(1)
@@ -173,7 +173,7 @@ def main():
 
 if __name__ == '__main__':
     try:
-        import futaam.interfaces
+        from . import futaam.interfaces
     except ImportError:
         import sys
         sys.stderr.write('Error: you must install Futaam before using it\n')

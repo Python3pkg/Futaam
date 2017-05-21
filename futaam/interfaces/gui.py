@@ -614,8 +614,8 @@ def reloadTable():
         model.load_db(filename, parser.Parser(DB_FILE[0]))
     else:
         if PASSWORD == '':
-            print(colors.fail + 'Missing password! ' + colors.default +\
-			'Use "--password [pass]"')
+            print((colors.fail + 'Missing password! ' + colors.default +\
+			'Use "--password [pass]"'))
             sys.exit(1)
         model.load_db(filename, parser.Parser(
             HOST, PORT, PASSWORD))
@@ -730,7 +730,7 @@ def main(argv, version):
         HOOKS = ARGS.hooks
 
     if len(DB_FILE) == 0 and HOST == '':
-        print(colors.fail + 'No database file specified' + colors.default)
+        print((colors.fail + 'No database file specified' + colors.default))
         help()
         sys.exit(1)
     if HOST == '':
@@ -741,14 +741,14 @@ def main(argv, version):
     else:
         if USERNAME == '':
             if 'default.user' in confs:
-                print('[' + colors.blue + 'info' + colors.default +\
-                '] using default user')
+                print(('[' + colors.blue + 'info' + colors.default +\
+                '] using default user'))
                 USERNAME = confs['default.user']
             else:
-                USERNAME = input('Username for \'' + HOST + '\': ')
+                USERNAME = eval(input('Username for \'' + HOST + '\': '))
         if 'default.password' in confs:
-            print('[' + colors.blue + 'info' + colors.default +\
-            '] using default password')
+            print(('[' + colors.blue + 'info' + colors.default +\
+            '] using default password'))
             PASSWORD = confs['default.password']
         else:
             PASSWORD = getpass.getpass(
@@ -759,8 +759,8 @@ def main(argv, version):
                 parser.Parser(HOST=host, PORT=port, username=USERNAME, 
                 password=password, hooks=HOOKS))
         except Exception as e:
-            print('[' + colors.fail + 'error' + colors.default + '] ' +\
-            str(e).replace('305 ', ''))
+            print(('[' + colors.fail + 'error' + colors.default + '] ' +\
+            str(e).replace('305 ', '')))
             sys.exit(1)
         currentdb = 0
 

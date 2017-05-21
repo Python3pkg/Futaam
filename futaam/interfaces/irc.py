@@ -103,11 +103,11 @@ class IRCFactory(protocol.ClientFactory):
         self.channel = channel
 
     def clientConnectionFailed(self, connector, reason):
-        print("Connection failed because of %s" % reason)
+        print(("Connection failed because of %s" % reason))
         reactor.stop()
 
     def clientConnectionLost(self, connector, reason):
-        print("Connection lost: %s" % reason)
+        print(("Connection lost: %s" % reason))
         connector.connect()
 
 

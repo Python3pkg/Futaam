@@ -41,13 +41,13 @@ def createDB(filename, dbtype='json', name='', description='', items=[]):
 class printHook(object):
 	"""Example hook that prints the changes made"""
 	def added(self, entry):
-		print('[print hook] new entry added ({0})'.format(entry['name']))
+		print(('[print hook] new entry added ({0})'.format(entry['name'])))
 
 	def removed(self, entry):
-		print('[print hook] entry removed ({0})'.format(entry['name']))
+		print(('[print hook] entry removed ({0})'.format(entry['name'])))
 
 	def propertyChanged(self, oldEntry, newEntry, propertyName):
-		print('[print hook] "{0}" property changed on entry "{1}" ({2} -> {3})'.format(propertyName, newEntry['name'], oldEntry[propertyName], newEntry[propertyName]))
+		print(('[print hook] "{0}" property changed on entry "{1}" ({2} -> {3})'.format(propertyName, newEntry['name'], oldEntry[propertyName], newEntry[propertyName])))
 
 class IRCHook(object):
 	"""Hook that announces the changes on the database on a IRC channel; note: you must first start the "irc" interface"""
@@ -107,7 +107,7 @@ class Parser(object):
 				while rc[-1:] != chr(4):
 					rc += self.sock.recv(4096)
 				if json.loads(rc[:-1])['response'].find('err:') == 0:
-					print(json.loads(rc[:-1])['response'].replace('err:', '').strip())
+					print((json.loads(rc[:-1])['response'].replace('err:', '').strip()))
 					exit(1)
 
 				self.dictionary = json.load(json.loads(rc[:-1])['response'])

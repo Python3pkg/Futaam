@@ -67,18 +67,18 @@ def rebuild_ids(database):
 def pick_entry(index, database):
     """Returns the entry at index in the specified database"""
     if index.isdigit() == False:
-        print(COLORS.fail + 'Argument must be the index number' +\
-		COLORS.default)
+        print((COLORS.fail + 'Argument must be the index number' +\
+		COLORS.default))
         return None
     if database.dictionary['count'] < int(index) or int(index) < 0:
-        print(COLORS.fail + 'Entry not found' + COLORS.default)
+        print((COLORS.fail + 'Entry not found' + COLORS.default))
         return None
     for entry in database.dictionary['items']:
         if entry['id'] == int(index):
             return entry
     else:
-        print(COLORS.fail + 'Entry not found! There is probably an error" +\
-		"with your database and that makes me very sad :c' + COLORS.default)
+        print((COLORS.fail + 'Entry not found! There is probably an error" +\
+		"with your database and that makes me very sad :c' + COLORS.default))
         return None
 
 
@@ -89,10 +89,10 @@ def main(argv, version):
     if ANNInitRet == 0:
         pass
     elif ANNInitRet == 1:
-        print(COLORS.header + 'Updating metadata...' + COLORS.default)
+        print((COLORS.header + 'Updating metadata...' + COLORS.default))
         ANN.fetch_report(50)
     elif ANNInitRet == 2:
-        print(COLORS.header + 'Updating ANN metadata cache for the first time...' + COLORS.default)
+        print((COLORS.header + 'Updating ANN metadata cache for the first time...' + COLORS.default))
         ANN.fetch_report('all')
 	
     # gather arguments
@@ -114,9 +114,9 @@ def main(argv, version):
         hooks = ARGS.hooks
 
     if len(dbfile) == 0 and host == '':
-        print(COLORS.fail + 'No database specified' + COLORS.default)
-        print('To create a database, use the argument "--create" or "-c"' +\
-		'(no quotes)')
+        print((COLORS.fail + 'No database specified' + COLORS.default))
+        print(('To create a database, use the argument "--create" or "-c"' +\
+		'(no quotes)'))
         sys.exit(1)
 
     if host == '':
@@ -127,14 +127,14 @@ def main(argv, version):
     else:
         if username == '':
             if 'default.user' in CONFS:
-                print('[' + COLORS.blue + 'info' + COLORS.default +\
-				'] using default user')
+                print(('[' + COLORS.blue + 'info' + COLORS.default +\
+				'] using default user'))
                 username = CONFS['default.user']
             else:
-                username = input('Username for \'' + host + '\': ')
+                username = eval(input('Username for \'' + host + '\': '))
         if 'default.password' in CONFS:
-            print('[' + COLORS.blue + 'info' + COLORS.default +\
-            '] using default password')
+            print(('[' + COLORS.blue + 'info' + COLORS.default +\
+            '] using default password'))
             password = CONFS['default.password']
         else:
             password = getpass.getpass(
@@ -145,14 +145,14 @@ def main(argv, version):
                 parser.Parser(host=host, port=port, username=username,
 				password=password, hooks=hooks))
         except Exception as exception:
-            print('[' + COLORS.fail + 'error' + COLORS.default + '] ' +\
-			str(exception).replace('305 ', ''))
+            print(('[' + COLORS.fail + 'error' + COLORS.default + '] ' +\
+			str(exception).replace('305 ', '')))
             sys.exit(1)
 
         currentdb = 0
 
-    print(COLORS.header + dbs[currentdb].dictionary['name'] + COLORS.default +\
-	' (' + dbs[currentdb].dictionary['description'] + ')')
+    print((COLORS.header + dbs[currentdb].dictionary['name'] + COLORS.default +\
+	' (' + dbs[currentdb].dictionary['description'] + ')'))
     print('Type help for cheat sheet')
     if len(dbs) > 1:
         print('Type switchdb to change to the next database')
@@ -179,11 +179,11 @@ def main(argv, version):
                 args += arg + ' '
             args = args[:-1].replace('\n', '')
         except (EOFError, KeyboardInterrupt):
-            print(COLORS.green + 'Bye~' + COLORS.default)
+            print((COLORS.green + 'Bye~' + COLORS.default))
             sys.exit(0)
 
         if cmdsplit[0].lower() in ['q', 'quit']:
-            print(COLORS.green + 'Bye~' + COLORS.default)
+            print((COLORS.green + 'Bye~' + COLORS.default))
             sys.exit(0)
         elif cmdsplit[0].lower() in ['set_ps1', 'sps1']:
             args += ' '
@@ -194,27 +194,27 @@ def main(argv, version):
                 conf_file.close()
             PS1 = args
         elif cmdsplit[0].lower() in ['help', 'h']:
-            print(COLORS.header + 'Commands' + COLORS.default)
+            print((COLORS.header + 'Commands' + COLORS.default))
             print('\thelp or h \t\t - prints this')
             print('\tquit or q \t\t - quits')
             print('\tset_ps1 or sps1 \t - changes PS1')
-            print('\tswitchdb or sdb \t - changes working database when' +\
-			'opened with multiple files')
+            print(('\tswitchdb or sdb \t - changes working database when' +\
+			'opened with multiple files'))
             print('\tadd or a \t\t - adds an entry')
             print('\tlist or ls\t\t - lists all entries')
-            print('\tdelete, del or d \t - deletes an entry with the given' +\
-			'index')
+            print(('\tdelete, del or d \t - deletes an entry with the given' +\
+			'index'))
             print('\tedit or e \t\t - edits an entry')
             print('\tinfo or i\t\t - shows information on an entry')
-            print('\toinfo or o\t\t - shows online information on an entry' +\
-			'(if given entry number) or name')
-            print('\tpicture, pic, image, img - shows an image of the entry' +\
-			'or name')
-            print('\tnyaa or n\t\t - searches nyaa.eu for torrent of an' +\
-			'entry (if given entry number) or name')
+            print(('\toinfo or o\t\t - shows online information on an entry' +\
+			'(if given entry number) or name'))
+            print(('\tpicture, pic, image, img - shows an image of the entry' +\
+			'or name'))
+            print(('\tnyaa or n\t\t - searches nyaa.eu for torrent of an' +\
+			'entry (if given entry number) or name'))
             print('\tsort or s\t\t - swaps or moves entries around')
-            print('\tfilter, f or search\t - searches the database (by' +\
-			'name/genre/obs/type/lastwatched)')
+            print(('\tfilter, f or search\t - searches the database (by' +\
+			'name/genre/obs/type/lastwatched)'))
             print('')
         elif cmdsplit[0].lower() in ['switchdb', 'sdb']:
             try:
@@ -222,13 +222,13 @@ def main(argv, version):
                 repr(dbs[currentdb])
             except IndexError:
                 currentdb = 0
-            print('Current database: ' + COLORS.header + dbs[
+            print(('Current database: ' + COLORS.header + dbs[
 			currentdb].dictionary['name'] + COLORS.default + ' (' + dbs[
-			currentdb].dictionary['description'] + ')')
+			currentdb].dictionary['description'] + ')'))
         elif cmdsplit[0].lower() in ['l', 'ls', 'list']:
             if len(dbs[currentdb].dictionary['items']) == 0:
-                print(COLORS.warning +\
-				'No entries found! Use "add" for adding one' + COLORS.default)
+                print((COLORS.warning +\
+				'No entries found! Use "add" for adding one' + COLORS.default))
                 continue
             else:
                 for entry in sorted(dbs[currentdb].dictionary['items'],
@@ -239,19 +239,19 @@ def main(argv, version):
                     if entry['status'].lower() in rcolors:
                         sys.stdout.write(rcolors[entry['status'].lower()])
                     if os.name != 'nt':
-                        print('\t' + str(entry['id']) + ' - [' +\
+                        print(('\t' + str(entry['id']) + ' - [' +\
 						entry['status'].upper() + '] ' + entry['name'] +\
-						COLORS.default)
+						COLORS.default))
                     else:
-                        print('\t' + str(entry['id']) +\
+                        print(('\t' + str(entry['id']) +\
 						' - [' + entry['status'].upper() + '] ' +\
 						entry['name'].encode('ascii', 'ignore') +\
-						COLORS.default)
+						COLORS.default))
         elif cmdsplit[0].lower() in ['search', 'filter', 'f']:
             if len(cmdsplit) < 3:
-                print('Usage: ' + cmdsplit[0] + ' <filter> <terms>')
-                print('Where <filter> is' +\
-				'name/genre/lastwatched/status/obs/type')
+                print(('Usage: ' + cmdsplit[0] + ' <filter> <terms>'))
+                print(('Where <filter> is' +\
+				'name/genre/lastwatched/status/obs/type'))
             else:
                 if cmdsplit[1].lower() in ['name', 'genre', 'lastwatched',
 				'status', 'obs', 'type']:
@@ -267,16 +267,16 @@ def main(argv, version):
                                 sys.stdout.write(
                                     rcolors[entry['status'].lower()])
                             if os.name != 'nt':
-                                print('\t' + str(entry['id']) + ' - [' +\
+                                print(('\t' + str(entry['id']) + ' - [' +\
 								entry['status'].upper() + '] ' +\
-								entry['name'] + COLORS.default)
+								entry['name'] + COLORS.default))
                             else:
-                                print('\t' + str(entry['id']) + ' - [' +\
+                                print(('\t' + str(entry['id']) + ' - [' +\
 								entry['status'].upper() + '] ' +\
 								entry['name'].encode('ascii', 'ignore') +\
-								COLORS.default)
+								COLORS.default))
                 else:
-                    print('Usage: ' + cmdsplit[0] + ' <filter> <terms>')
+                    print(('Usage: ' + cmdsplit[0] + ' <filter> <terms>'))
                     print('Where <filter> is name/genre/lastwatched/status/obs')
         elif cmdsplit[0].lower() in ['d', 'del', 'delete']:
             entry = pick_entry(args, dbs[currentdb])
@@ -303,8 +303,8 @@ def main(argv, version):
                     'items'][int(args)]['type']
                     accepted = True
                 else:
-                    print(COLORS.fail + 'The entry ' + args +\
-				    ' is not on the list' + COLORS.default)
+                    print((COLORS.fail + 'The entry ' + args +\
+				    ' is not on the list' + COLORS.default))
             else:
                 title = args
 
@@ -326,10 +326,10 @@ def main(argv, version):
                             'ignore')
                 i = 0
                 for result in search_results:
-                    print(COLORS.bold + '[' + str(i) + '] ' +\
-                    COLORS.default + result['title'])
+                    print((COLORS.bold + '[' + str(i) + '] ' +\
+                    COLORS.default + result['title']))
                     i += 1
-                print(COLORS.bold + '[A] ' + COLORS.default + 'Abort')
+                print((COLORS.bold + '[A] ' + COLORS.default + 'Abort'))
                 while accepted == False:
                     which = input(
                     COLORS.bold + 'Choose> ' + COLORS.default
@@ -349,8 +349,8 @@ def main(argv, version):
                     deep = VNDB.get(
                     'vn', 'basic,details', '(id=' + str(eid) + ')', '')\
                     ['items'][0]
-                print(COLORS.header + 'Fetching image, please stand by...' +\
-				COLORS.default)
+                print((COLORS.header + 'Fetching image, please stand by...' +\
+				COLORS.default))
                 utils.showImage(
                 deep[('image_url' if etype != 'vn' else 'image')])
         
@@ -360,13 +360,13 @@ def main(argv, version):
                 print('Must be:')
                 print('	(s)ort [(s)wap/(m)ove] [index] [index]')
                 print('')
-                print('When moving, first index should be "from entry" and' +\
-				'second index should be "to entry"')
+                print(('When moving, first index should be "from entry" and' +\
+				'second index should be "to entry"'))
                 continue
 
             if (cmdsplit[2].isdigit() == False) or\
 			(cmdsplit[3].isdigit() == False):
-                print(COLORS.fail + 'Indexes must be digits' + COLORS.default)
+                print((COLORS.fail + 'Indexes must be digits' + COLORS.default))
                 continue
 
             if cmdsplit[1].lower() in ['swap', 's']:
@@ -395,8 +395,8 @@ def main(argv, version):
                 rebuild_ids(dbs[currentdb])
 
             else:
-                print(COLORS.warning + 'Usage: (s)ort [(s)wap/(m)ove]' +\
-                '[index] [index]' + COLORS.default)
+                print((COLORS.warning + 'Usage: (s)ort [(s)wap/(m)ove]' +\
+                '[index] [index]' + COLORS.default))
                 continue
 
         elif cmdsplit[0].lower() in ['info', 'i']:
@@ -422,11 +422,11 @@ def main(argv, version):
 
             for k in toprint:
                 if os.name != 'nt':
-                    print(COLORS.bold + '<' + k + '>' + COLORS.default + ' ' +\
-                    str(toprint[k]))
+                    print((COLORS.bold + '<' + k + '>' + COLORS.default + ' ' +\
+                    str(toprint[k])))
                 else:
-                    print(COLORS.bold + '<' + k + '>' + COLORS.default + ' ' +\
-                    toprint[k].encode('ascii', 'ignore'))
+                    print((COLORS.bold + '<' + k + '>' + COLORS.default + ' ' +\
+                    toprint[k].encode('ascii', 'ignore')))
 
         elif cmdsplit[0].lower() in ['edit', 'e']:
             # INTRO I
@@ -460,9 +460,9 @@ def main(argv, version):
                     n_status = input(
                         '<Status> [W/C/Q/H/D] [' + entry['status'].upper() +\
                         '] ').replace('\n', '').lower()
-                n_lw = input(
+                n_lw = eval(input(
                     '<Last episode watched> [' + entry['lastwatched'] +\
-                    ']>'.replace('\n', ''))
+                    ']>'.replace('\n', '')))
             elif entry['type'] == 'manga':
                 n_status = "placeholder"
                 while (n_status in ['r', 'c', 'q', 'h', 'd', '']) == False:
@@ -485,7 +485,7 @@ def main(argv, version):
                 n_lw = ''
 
             # EXTENDED SINGLE NOTE
-            n_obs = input('<Observations> [' + entry['obs'] + ']> ')
+            n_obs = eval(input('<Observations> [' + entry['obs'] + ']> '))
 
             # BEGIN THE SOLO
             if n_name == '':
@@ -512,7 +512,7 @@ def main(argv, version):
 
             # Peaceful end
             dbs[currentdb].save()
-            print(COLORS.green + 'Done' + COLORS.default)
+            print((COLORS.green + 'Done' + COLORS.default))
             continue
         elif cmdsplit[0].lower() in ['n', 'NYAA']:
             if args.isdigit():
@@ -547,29 +547,29 @@ def main(argv, version):
                                     term = term + ' ' + new_lw
 
                 else:
-                    print(COLORS.fail + 'The entry ' + args +\
-                    ' is not on the list' + COLORS.default)
+                    print((COLORS.fail + 'The entry ' + args +\
+                    ' is not on the list' + COLORS.default))
                     continue
             else:
                 term = args
 
-            print(COLORS.header + 'Searching NYAA.eu for "' + term +\
-            '"...' + COLORS.default)
+            print((COLORS.header + 'Searching NYAA.eu for "' + term +\
+            '"...' + COLORS.default))
             search_results = NYAA.search(term)
             print('')
 
             if len(search_results) == 0:
-                print(COLORS.fail + 'No results found' + COLORS.default)
+                print((COLORS.fail + 'No results found' + COLORS.default))
                 continue
 
             i = 0
             for result in search_results[:15]:
                 if os.name != 'nt':
-                    print(COLORS.bold + '[' + str(i) + '] ' +\
-                    COLORS.default + result['title'])
+                    print((COLORS.bold + '[' + str(i) + '] ' +\
+                    COLORS.default + result['title']))
                 else:
-                    print(COLORS.bold + '[' + str(i) + '] ' + COLORS.default +\
-                    result['title'].encode('ascii', 'ignore'))
+                    print((COLORS.bold + '[' + str(i) + '] ' + COLORS.default +\
+                    result['title'].encode('ascii', 'ignore')))
                 i += 1
             print('[C] Cancel')
 
@@ -590,32 +590,32 @@ def main(argv, version):
                 if os.name == 'nt':
                     for key in picked:
                         picked[key] = picked[key].encode('ascii', 'ignore')
-                print(COLORS.bold + '<Title> ' + COLORS.default +\
-                picked['title'])
-                print(COLORS.bold + '<Category> ' + COLORS.default +\
-                picked['category'])
-                print(COLORS.bold + '<Info> ' + COLORS.default +\
-                picked['description'])
-                print(COLORS.bold + '<URL> ' + COLORS.default + picked['url'])
+                print((COLORS.bold + '<Title> ' + COLORS.default +\
+                picked['title']))
+                print((COLORS.bold + '<Category> ' + COLORS.default +\
+                picked['category']))
+                print((COLORS.bold + '<Info> ' + COLORS.default +\
+                picked['description']))
+                print((COLORS.bold + '<URL> ' + COLORS.default + picked['url']))
 
                 print('')
                 choice = ''
                 while (choice in ['t', 'd', 'n', 'r']) == False:
-                    print(COLORS.bold + '[T] ' + COLORS.default +\
-                    'Download .torrent file')
-                    print(COLORS.bold + '[D] ' + COLORS.default +\
-                    'Download all files (simple torrent client)')
-                    print(COLORS.bold + '[R] ' + COLORS.default +\
-                    'Load and start on rTorrent (xmlrpc)')
-                    print(COLORS.bold + '[N] ' + COLORS.default +\
-                    'Do nothing')
+                    print((COLORS.bold + '[T] ' + COLORS.default +\
+                    'Download .torrent file'))
+                    print((COLORS.bold + '[D] ' + COLORS.default +\
+                    'Download all files (simple torrent client)'))
+                    print((COLORS.bold + '[R] ' + COLORS.default +\
+                    'Load and start on rTorrent (xmlrpc)'))
+                    print((COLORS.bold + '[N] ' + COLORS.default +\
+                    'Do nothing'))
                     choice = input(
                         COLORS.bold + 'Choose> ' + COLORS.default).lower()
 
                 if choice == 'r':
                     if os.name == 'nt':
-                        print(COLORS.fail + 'Not available on Windows' +\
-                        COLORS.default)
+                        print((COLORS.fail + 'Not available on Windows' +\
+                        COLORS.default))
                         continue
 
                     try:
@@ -624,16 +624,16 @@ def main(argv, version):
                         time.sleep(1)
                         server.load_start(picked['url'])
                         time.sleep(.5)
-                        print(COLORS.green + 'Success' + COLORS.default)
+                        print((COLORS.green + 'Success' + COLORS.default))
                     except:
-                        print(COLORS.fail + 'Error while connecting or adding'+\
-                        'torrent to rTorrent' + COLORS.default)
-                        print(COLORS.warning + 'ATTENTION: for this to work' +\
-                        'you need to add the following line to ~/.rtorrent.rc:')
+                        print((COLORS.fail + 'Error while connecting or adding'+\
+                        'torrent to rTorrent' + COLORS.default))
+                        print((COLORS.warning + 'ATTENTION: for this to work' +\
+                        'you need to add the following line to ~/.rtorrent.rc:'))
                         print('\tscgi_port = localhost:5000')
                         print('')
-                        print('And rTorrent needs to be running' +\
-                        COLORS.default)
+                        print(('And rTorrent needs to be running' +\
+                        COLORS.default))
                         continue
                 elif choice == 't':
                     metadata = urlopen(picked['url']).read()
@@ -647,10 +647,10 @@ def main(argv, version):
                             metadata_file.write(metadata)
                             metadata_file.close()
                         except IOError as error:
-                            print(COLORS.fail + 'Failed to save file' +\
-                            COLORS.default)
-                            print(COLORS.fail + 'Exception! ' + str(error) +\
-                            COLORS.default)
+                            print((COLORS.fail + 'Failed to save file' +\
+                            COLORS.default))
+                            print((COLORS.fail + 'Exception! ' + str(error) +\
+                            COLORS.default))
                             print('Retrying...')
                             print('')
                             continue
@@ -668,9 +668,9 @@ def main(argv, version):
                         if choice == 'y':
                             if not dbs[currentdb].dictionary['items'][
                             int(args)]['lastwatched'].isdigit():
-                                print(COLORS.error + 'The last watched field' +\
-                                'on this entry is apparently not a digit,')
-                                print('will not proceed.' + COLORS.default)
+                                print((COLORS.error + 'The last watched field' +\
+                                'on this entry is apparently not a digit,'))
+                                print(('will not proceed.' + COLORS.default))
                             else:
                                 dbs[currentdb].dictionary['items'][int(args)][
                                 'lastwatched'] = str(
@@ -682,17 +682,17 @@ def main(argv, version):
                     try:
                         import libtorrent as lt
                     except ImportError:
-                        print(COLORS.fail +\
+                        print((COLORS.fail +\
                         'libTorrent Python bindings not found!' +\
-                        COLORS.default)
-                        print('To install it check your distribution\'s' +\
+                        COLORS.default))
+                        print(('To install it check your distribution\'s' +\
                         ' package manager (python-libtorrent for Debian' +\
                         ' based ones) or compile libTorrent with the' +\
-                        '--enable-python-binding')
+                        '--enable-python-binding'))
                         continue
 
-                    print(COLORS.header + 'Downloading to current folder...' +\
-                    COLORS.default)
+                    print((COLORS.header + 'Downloading to current folder...' +\
+                    COLORS.default))
 
                     ses = lt.session()
                     ses.listen_on(6881, 6891)
@@ -729,9 +729,9 @@ def main(argv, version):
                         if choice == 'y':
                             if not dbs[currentdb].dictionary['items'][int(
                             args)]['lastwatched'].isdigit():
-                                print(COLORS.error + 'The last watched field' +\
-                                'on this entry is apparently not a digit,')
-                                print('will not proceed.' + COLORS.default)
+                                print((COLORS.error + 'The last watched field' +\
+                                'on this entry is apparently not a digit,'))
+                                print(('will not proceed.' + COLORS.default))
                             else:
                                 dbs[currentdb].dictionary['items'][int(args)][
                                 'lastwatched'] = str(int(dbs[currentdb
@@ -748,8 +748,8 @@ def main(argv, version):
                         'items'][int(args.split(' ')[0])]['type']
                     accepted = True
                 else:
-                    print(COLORS.fail + 'The entry ' + args.split(' ')[0] +\
-                    ' is not on the list' + COLORS.default)
+                    print((COLORS.fail + 'The entry ' + args.split(' ')[0] +\
+                    ' is not on the list' + COLORS.default))
             else:
                 title = args
 
@@ -770,10 +770,10 @@ def main(argv, version):
                             result[key] = result[key].encode('ascii', 'ignore')
                 i = 0
                 for result in search_results:
-                    print(COLORS.bold + '[' + str(i) + '] ' + COLORS.default +\
-                    result['title'])
+                    print((COLORS.bold + '[' + str(i) + '] ' + COLORS.default +\
+                    result['title']))
                     i += 1
-                print(COLORS.bold + '[A] ' + COLORS.default + 'Abort')
+                print((COLORS.bold + '[A] ' + COLORS.default + 'Abort'))
                 while accepted == False:
                     which = input(
                         COLORS.bold + 'Choose> ' +\
@@ -806,84 +806,84 @@ def main(argv, version):
                         else '') if isinstance(deep['other_titles'].get('japanese', ''), str) \
                         else (' (' + '/'.join(deep['other_titles'].get('japanese', [])) + ')' if \
                         len(deep['other_titles'].get('japanese', [])) > 0 else '')
-                    print(COLORS.bold + 'Title: ' + COLORS.default +\
-                    deep['title'] + alternative_title)
+                    print((COLORS.bold + 'Title: ' + COLORS.default +\
+                    deep['title'] + alternative_title))
                     if deep['end_date'] != None:
-                        print(COLORS.bold + 'Year: ' + COLORS.default +\
-                        deep['start_date'] + ' - ' + deep['end_date'])
+                        print((COLORS.bold + 'Year: ' + COLORS.default +\
+                        deep['start_date'] + ' - ' + deep['end_date']))
                     else:
-                        print(COLORS.bold + 'Year: ' + COLORS.default +\
-                        deep['start_date'] + ' - ongoing')
-                    print(COLORS.bold + 'Type: ' + COLORS.default + deep['type'])
+                        print((COLORS.bold + 'Year: ' + COLORS.default +\
+                        deep['start_date'] + ' - ongoing'))
+                    print((COLORS.bold + 'Type: ' + COLORS.default + deep['type']))
                     if deep.get('classification', None) != None:
-                        print(COLORS.bold + 'Classification: ' + COLORS.default +\
-                        deep['classification'])
-                    print(COLORS.bold + 'Episodes: ' + COLORS.default +\
-                    str(deep['episodes']))
+                        print((COLORS.bold + 'Classification: ' + COLORS.default +\
+                        deep['classification']))
+                    print((COLORS.bold + 'Episodes: ' + COLORS.default +\
+                    str(deep['episodes'])))
                     if deep.get('synopsis', None) != None:
-                        print(COLORS.bold + 'Synopsis: ' + COLORS.default +\
-                        utils.remove_html_tags(deep['synopsis']))
-                    print(COLORS.bold + 'Picture available: ' + COLORS.default + \
-                        ('yes' if deep['image_url'] != '' else 'no'))
+                        print((COLORS.bold + 'Synopsis: ' + COLORS.default +\
+                        utils.remove_html_tags(deep['synopsis'])))
+                    print((COLORS.bold + 'Picture available: ' + COLORS.default + \
+                        ('yes' if deep['image_url'] != '' else 'no')))
                     print('')
                     if len(deep['OPsongs']) > 0:
-                        print(COLORS.bold + 'Opening' + \
+                        print((COLORS.bold + 'Opening' + \
                             ('s' if len(deep['OPsongs']) > 1 else '') + \
-                            ': ' + COLORS.default + deep['OPsongs'][0])
+                            ': ' + COLORS.default + deep['OPsongs'][0]))
                         for song in deep['OPsongs'][1:]: 
-                            print((' ' * 10) + song)
+                            print(((' ' * 10) + song))
 
                     if len(deep['EDsongs']) > 0:
-                        print(COLORS.bold + 'Ending' + \
+                        print((COLORS.bold + 'Ending' + \
                             ('s' if len(deep['EDsongs']) > 1 else '') + \
-                            ': ' + COLORS.default + deep['EDsongs'][0])
+                            ': ' + COLORS.default + deep['EDsongs'][0]))
                         for song in deep['EDsongs'][1:]:
-                            print((' ' * 9) + song)
+                            print(((' ' * 9) + song))
                     print('')
-                    print(COLORS.bold + 'Studio' +\
+                    print((COLORS.bold + 'Studio' +\
                         ('s' if len(deep['credit']) > 1 else '') + ': ' + \
-                        COLORS.default + (' / '.join(deep['credit'])))
+                        COLORS.default + (' / '.join(deep['credit']))))
                     print('')
-                    print(COLORS.bold + 'Character list:' + COLORS.default)
+                    print((COLORS.bold + 'Character list:' + COLORS.default))
                     for character in deep['characters']:
-                        print('\t' + character + ' (voiced by ' + \
-                            deep['characters'][character] + ')')
+                        print(('\t' + character + ' (voiced by ' + \
+                            deep['characters'][character] + ')'))
                     print('')
-                    print(COLORS.bold + 'Episode list:' + COLORS.default)
+                    print((COLORS.bold + 'Episode list:' + COLORS.default))
                     for ep in sorted(deep['episode_names'], key=lambda x: int(x)):
-                        print('\t #' + ep + ' ' + \
-                            deep['episode_names'][ep])
+                        print(('\t #' + ep + ' ' + \
+                            deep['episode_names'][ep]))
                     print('')
-                    print(COLORS.bold + 'Staff list:' + COLORS.default)
+                    print((COLORS.bold + 'Staff list:' + COLORS.default))
                     if '--full' in cmdsplit:
                         amount = len(deep['staff'])
                     else: amount = 7
                     i = 0
                     for staff in deep['staff']:
-                        print('\t' + staff + ' (' + deep['staff'][staff] + ')')
+                        print(('\t' + staff + ' (' + deep['staff'][staff] + ')'))
                         i += 1
                         if i >= amount and len(deep['staff']) > amount:
-                            print(COLORS.bold + '\tThere are ' + str(len(deep['staff']) - amount) + \
+                            print((COLORS.bold + '\tThere are ' + str(len(deep['staff']) - amount) + \
                              ' other staff members, use "' + COLORS.default + cmd + ' --full"' +\
-                             COLORS.bold + ' to see more')
+                             COLORS.bold + ' to see more'))
                             break
 
                 elif etype == 'manga':
-                    print(COLORS.bold + 'Title: ' + COLORS.default +\
-                    deep['title'])
-                    print(COLORS.bold + 'Chapters: ' + COLORS.default +\
-                    str(deep['episodes']))
-                    print(COLORS.bold + 'Synopsis: ' + COLORS.default +\
+                    print((COLORS.bold + 'Title: ' + COLORS.default +\
+                    deep['title']))
+                    print((COLORS.bold + 'Chapters: ' + COLORS.default +\
+                    str(deep['episodes'])))
+                    print((COLORS.bold + 'Synopsis: ' + COLORS.default +\
                     utils.HTMLEntitiesToUnicode(
-                     utils.remove_html_tags(deep['synopsis'])))
+                     utils.remove_html_tags(deep['synopsis']))))
                 elif etype == 'vn':
                     if len(deep['aliases']) == 0:
-                        print(COLORS.bold + 'Title: ' + COLORS.default +\
-                        deep['title'])
+                        print((COLORS.bold + 'Title: ' + COLORS.default +\
+                        deep['title']))
                     else:
-                        print(COLORS.bold + 'Title: ' + COLORS.default +\
+                        print((COLORS.bold + 'Title: ' + COLORS.default +\
                         deep['title'] + ' [' +\
-                        deep['aliases'].replace('\n', '/') + ']')
+                        deep['aliases'].replace('\n', '/') + ']'))
                         platforms = []
                     for platform in deep['platforms']:
                         names = {
@@ -893,14 +893,14 @@ def main(argv, version):
                         else:
                             platform = platform[0].upper() + platform[1:]
                         platforms.append(platform)
-                    print(COLORS.bold + 'Platforms: ' + COLORS.default +\
-                    ('/'.join(platforms)))
-                    print(COLORS.bold + 'Released: ' + COLORS.default +\
-                    deep['released'])
-                    print(COLORS.bold + 'Languages: ' + COLORS.default +\
-                    ('/'.join(deep['languages'])))
-                    print(COLORS.bold + 'Description: ' + COLORS.default +\
-                    deep['description'])
+                    print((COLORS.bold + 'Platforms: ' + COLORS.default +\
+                    ('/'.join(platforms))))
+                    print((COLORS.bold + 'Released: ' + COLORS.default +\
+                    deep['released']))
+                    print((COLORS.bold + 'Languages: ' + COLORS.default +\
+                    ('/'.join(deep['languages']))))
+                    print((COLORS.bold + 'Description: ' + COLORS.default +\
+                    deep['description']))
 
                 print('')
 
@@ -929,11 +929,11 @@ def main(argv, version):
                 i = 0
                 for result in search_results:
                     if os.name != 'nt':
-                        print(COLORS.bold + '[' + str(i) + '] ' + COLORS.default +\
-                        result['title'])
+                        print((COLORS.bold + '[' + str(i) + '] ' + COLORS.default +\
+                        result['title']))
                     else:
-                        print(COLORS.bold + '[' + str(i) + '] ' + COLORS.default +\
-                        result['title'].encode('ascii', 'ignore'))
+                        print((COLORS.bold + '[' + str(i) + '] ' + COLORS.default +\
+                        result['title'].encode('ascii', 'ignore')))
                     i += 1
                 if len(search_results) == 0:
                     print('No results found, searching online..')
@@ -942,8 +942,8 @@ def main(argv, version):
                     continue
 
                 if not online:
-                    print(COLORS.bold + '[O] ' + COLORS.default + 'Search online')
-                print(COLORS.bold + '[C] ' + COLORS.default + 'Cancel')
+                    print((COLORS.bold + '[O] ' + COLORS.default + 'Search online'))
+                print((COLORS.bold + '[C] ' + COLORS.default + 'Cancel'))
                 accepted = False
                 while accepted == False:
                     which = input(
@@ -1014,11 +1014,11 @@ def main(argv, version):
 	          utils.HTMLEntitiesToUnicode(utils.remove_html_tags(genre)),
               'status': status, 'lastwatched': last_ep, 'obs': obs})
             rebuild_ids(dbs[currentdb])
-            print(COLORS.green + 'Entry added' + COLORS.default + '\n')
+            print((COLORS.green + 'Entry added' + COLORS.default + '\n'))
         elif cmdsplit[0] == '':
             continue
         else:
-            print(COLORS.warning + 'Command not recognized' + COLORS.default)
+            print((COLORS.warning + 'Command not recognized' + COLORS.default))
             continue
 
 
